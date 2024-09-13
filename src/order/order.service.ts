@@ -1,9 +1,9 @@
 import {Injectable, Logger, NotFoundException} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {In, Repository} from 'typeorm';
-import {Order} from './order.entity';
+import {Order} from './entities/order.entity';
 import {CreateOrderDto} from './dto/create-order.dto';
-import {Product} from '../product/product.entity';
+import {Product} from '../product/entities/product.entity';
 import {OrderNotFoundException} from "../exceptions/OrderNotFoundException";
 
 @Injectable()

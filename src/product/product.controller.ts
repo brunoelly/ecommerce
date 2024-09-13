@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, HttpCode, HttpStatus, Logger, NotFoundException } from '@nestjs/common';
-import { Product } from './product.entity';
+import { Product } from './entities/product.entity';
 import { ProductService } from './product.service';
 
 @Controller('products')
