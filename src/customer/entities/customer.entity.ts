@@ -1,10 +1,11 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
+import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {Order} from "../../order/entities/order.entity";
 import {Review} from "../../review/entities/review.entity";
 import {Wishlist} from "../../wishlist/entities/wishlist.entity";
 import {Cart} from "../../cart/entities/cart.entity";
 import {Contact} from "../../contact/entities/contact.entity";
 import {Address} from "../../address/entities/address.entity";
+import {User} from "../../user/entities/user.entity";
 
 @Entity()
 export class Customer {
@@ -14,11 +15,18 @@ export class Customer {
     @Column()
     name!: string;
 
+    @Column({ unique: true })
+    cpf!: string;
+
     @Column()
     email!: string;
 
     @Column()
     phone!: string;
+
+    @OneToOne(() => User, user => user.customer)
+    @JoinColumn()
+    user!: User;
 
     @OneToMany(() => Order, order => order.customer)
     orders!: Order[];

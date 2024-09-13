@@ -7,7 +7,7 @@ export class PaymentMethod {
     id!: number;
 
     @Column()
-    name!: string; // Nome do método de pagamento (e.g., "Cartão de Crédito", "PayPal")
+    name!: string;
 
     @Column({ nullable: true })
     description?: string;
