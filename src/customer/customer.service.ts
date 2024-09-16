@@ -1,9 +1,9 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Customer } from './entities/customer.entity';
-import { CustomerNotFoundException } from '../exceptions/CustomerNotFoundException';
-import { CreateCustomerDto } from './dto/create-customer.dto';
+import {Injectable, Logger} from '@nestjs/common';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Repository} from 'typeorm';
+import {Customer} from './entities/customer.entity';
+import {CustomerNotFoundException} from '../exceptions/CustomerNotFoundException';
+import {CreateCustomerDto} from './dto/create-customer.dto';
 
 @Injectable()
 export class CustomerService {

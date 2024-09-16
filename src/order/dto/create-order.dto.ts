@@ -1,11 +1,15 @@
 import {IsArray, IsNotEmpty} from "class-validator";
 
 export class CreateOrderDto {
-    @IsNotEmpty()
-    product!: string;
 
     @IsNotEmpty()
     description!: string;
+
+    @IsNotEmpty()
+    createdAt!: Date;
+
+    @IsNotEmpty()
+    updatedAt!: Date;
 
     @IsNotEmpty()
     price!: number;
@@ -14,5 +18,14 @@ export class CreateOrderDto {
     totalAmount!: number;
 
     @IsArray()
-    productsIds!: number[];
+    customersIds!: number[];
+
+    @IsArray()
+    ordersIds!: number[];
+
+    @IsArray()
+    paymentsIds!: number[];
+
+    @IsArray()
+    shippingsIds!: number[];
 }
