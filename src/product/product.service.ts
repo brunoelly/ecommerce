@@ -41,7 +41,7 @@ export class ProductService {
         return products;
     }
 
-    async findOne(id: number): Promise<Product> {
+    async findOne(id: string): Promise<Product> {
         this.logger.log(`Buscando produto com ID: ${id}`);
         const product = await this.productRepository.findOneBy({ id });
 
@@ -54,7 +54,7 @@ export class ProductService {
         return product;
     }
 
-    async update(id: number, productData: Partial<Product>): Promise<Product> {
+    async update(id: string, productData: Partial<Product>): Promise<Product> {
         this.logger.log(`Atualizando produto com ID: ${id}`);
 
         const product = await this.productRepository.findOne({ where: { id: productData.id } });
@@ -75,7 +75,7 @@ export class ProductService {
         }
     }
 
-    async delete(id: number): Promise<void> {
+    async remove(id: string): Promise<void> {
         this.logger.log(`Removendo produto com ID: ${id}`);
 
         const product = await this.productRepository.findOne({ where: { id: id } });

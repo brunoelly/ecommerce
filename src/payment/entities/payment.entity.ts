@@ -4,8 +4,9 @@ import {PaymentMethod} from "../../payment-method/entities/payment-method.entity
 
 @Entity()
 export class Payment {
-    @PrimaryGeneratedColumn()
-    id!: number;
+
+    @PrimaryGeneratedColumn('uuid')
+    id!: string;
 
     @ManyToOne(() => PaymentMethod, paymentMethod => paymentMethod.payments)
     method!: PaymentMethod;

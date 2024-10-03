@@ -3,8 +3,9 @@ import {Payment} from "../../payment/entities/payment.entity";
 
 @Entity()
 export class PaymentMethod {
-    @PrimaryGeneratedColumn()
-    id!: number;
+
+    @PrimaryGeneratedColumn('uuid')
+    id!: string;
 
     @Column()
     name!: string;

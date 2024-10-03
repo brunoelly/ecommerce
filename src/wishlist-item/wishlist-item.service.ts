@@ -12,15 +12,15 @@ export class WishlistItemService {
     return `This action returns all wishlistItem`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} wishlistItem`;
   }
 
-  update(id: number, updateWishlistItemDto: UpdateWishlistItemDto) {
+  update(id: string, updateWishlistItemDto: UpdateWishlistItemDto) {
     return `This action updates a #${id} wishlistItem`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} wishlistItem`;
   }
 }

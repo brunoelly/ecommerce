@@ -4,8 +4,9 @@ import {WishlistItem} from "../../wishlist-item/entities/wishlist-item.entity";
 
 @Entity()
 export class Wishlist {
-    @PrimaryGeneratedColumn()
-    id!: number;
+
+    @PrimaryGeneratedColumn('uuid')
+    id!: string;
 
     @ManyToOne(() => Customer, customer => customer.wishlists)
     customer!: Customer;

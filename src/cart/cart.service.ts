@@ -4,6 +4,8 @@ import {CartItem} from "../cart-item/entities/cart-item.entity";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {Product} from "../product/entities/product.entity";
+import {CreateCartDto} from "./dto/create-cart.dto";
+import {UpdateCartDto} from "./dto/update-cart.dto";
 
 @Injectable()
 export class CartService {
@@ -16,7 +18,8 @@ export class CartService {
       private readonly productRepository: Repository<Product>,
       ) {}
 
-  async addItem(cartId: number, productId: number, quantity: number): Promise<Cart> {
+  async addItem(createCartDto: CreateCartDto): Promise<Cart> {
+    const { cartId, productId, quantity } = createCartDto;
     this.logger.log(`Adicionando item ao carrinho: Cart ID=${cartId}, Product ID=${productId}, Quantity=${quantity}`);
 
     const cart = await this.cartRepository.findOne({ where: { id: cartId }, relations: ['cartItems'] });
@@ -40,16 +43,37 @@ export class CartService {
     cart.cartItems.push(cartItem);
 
     try {
-      await this.cartRepository.save(cart);
-      this.logger.log(`Item adicionado com sucesso ao carrinho: ${cartId}`);
-      return cart;
+        await this.cartRepository.save(cart);
+        this.logger.log(`Item adicionado com sucesso ao carrinho: ${cartId}`);
+        return cart;
     } catch (error) {
       this.logger.error('Erro ao adicionar item ao carrinho', error);
       throw new HttpException('Erro ao adicionar item ao carrinho.', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  async removeItem(cartId: number, itemId: number): Promise<Cart> {
+  async update(cartId: string, updateCartDto: UpdateCartDto): Promise<Cart> {
+    const cart = await this.cartRepository.findOne({ where: { id: cartId }, relations: ['cartItems'] });
+    if (!cart) {
+      throw new HttpException('Carrinho não encontrado', HttpStatus.NOT_FOUND);
+    }
+
+    if (updateCartDto.cartItems) {
+        cart.cartItems = updateCartDto.cartItems;
+    }
+
+    if (updateCartDto.customerId != undefined){
+      cart.customer.id = updateCartDto.customerId;
+    }
+
+    try {
+      return await this.cartRepository.save(cart);
+    } catch (error) {
+        throw new HttpException('Erro ao atualizar carrinho', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async removeItem(cartId: string, itemId: string): Promise<Cart> {
     this.logger.log(`Removendo item do carrinho: Cart ID=${cartId}, Item ID=${itemId}`);
 
     const cart = await this.cartRepository.findOne({ where: { id: cartId }, relations: ['cartItems'] });
@@ -76,7 +100,7 @@ export class CartService {
     }
   }
 
-  async clearCart(cartId: number): Promise<void> {
+  async clearCart(cartId: string): Promise<void> {
     this.logger.log(`Limpando o carrinho: Cart ID=${cartId}`);
 
     const cart = await this.cartRepository.findOne({ where: { id: cartId }, relations: ['cartItems', 'customer'] });

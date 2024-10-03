@@ -2,6 +2,9 @@ import {HttpException, HttpStatus, Injectable, Logger} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Discount} from "./entities/discount.entity";
 import {Repository} from "typeorm";
+import {CreateDiscountDto} from "./dto/create-discount.dto";
+import {UpdateDiscountDto} from "./dto/update-discount.dto";
+import {Product} from "../product/entities/product.entity";
 
 @Injectable()
 export class DiscountService {
@@ -9,20 +12,21 @@ export class DiscountService {
 
   constructor(
       @InjectRepository(Discount)
-      private readonly discountRepository: Repository<Discount>) {}
+      private readonly discountRepository: Repository<Discount>
+  ) {}
 
-  async create(discountData: Discount): Promise<Discount> {
+  async create(createDiscountDto: CreateDiscountDto): Promise<Discount> {
     this.logger.log('Iniciando a criação do desconto.');
 
     // Validação do código do desconto
-    const existingDiscount = await this.discountRepository.findOne({ where: { code: discountData.code } });
+    const existingDiscount = await this.discountRepository.findOne({ where: { code: createDiscountDto.code } });
     if (existingDiscount) {
-      this.logger.warn(`Código de desconto já cadastrado: ${discountData.code}`);
+      this.logger.warn(`Código de desconto já cadastrado: ${createDiscountDto.code}`);
       throw new HttpException('Código de desconto já cadastrado.', HttpStatus.BAD_REQUEST);
     }
 
     try {
-      const discount = this.discountRepository.create(discountData);
+      const discount = this.discountRepository.create(createDiscountDto);
       const savedDiscount = await this.discountRepository.save(discount);
       this.logger.log(`Desconto criado com sucesso: ${savedDiscount.id}`);
       return savedDiscount;
@@ -47,10 +51,51 @@ export class DiscountService {
     return newTotal; // Retorna o novo total
   }
 
-  async delete(id: number): Promise<void> {
+  async findAll(): Promise<Discount[]> {
+    return await this.discountRepository.find();
+  }
+
+  async findOne(id: string): Promise<Discount> {
+    const discount = await this.discountRepository.findOne({ where: { id } });
+    if (!discount) {
+      this.logger.warn(`Desconto não encontrado: ${id}`);
+      throw new HttpException('Desconto não encontrado.', HttpStatus.NOT_FOUND);
+    }
+    return discount;
+  }
+
+  async update(id: string, updateDiscountDto: UpdateDiscountDto): Promise<Discount> {
+    this.logger.log(`Atualizando desconto ID=${id}`);
+
+    const discount = await this.discountRepository.findOne({ where: { id } });
+    if (!discount) {
+      this.logger.warn(`Desconto não encontrado: ${id}`);
+      throw new HttpException('Desconto não encontrado.', HttpStatus.NOT_FOUND);
+    }
+
+    // Atualiza as propriedades do desconto
+    if (updateDiscountDto.code) {
+      discount.code = updateDiscountDto.code;
+    }
+    if (updateDiscountDto.amount) {
+      discount.amount = updateDiscountDto.amount;
+    }
+    if (updateDiscountDto.productId) {
+      discount.product = { id: updateDiscountDto.productId } as Product;
+    }
+
+    try {
+      return await this.discountRepository.save(discount);
+    } catch (error) {
+      this.logger.error('Erro ao atualizar desconto', error);
+      throw new HttpException('Erro ao atualizar desconto.', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async remove(id: string): Promise<void> {
     this.logger.log(`Removendo desconto com ID: ${id}`);
 
-    const discount = await this.discountRepository.findOne(id);
+    const discount = await this.discountRepository.findOne({ where: { id } });
     if (!discount) {
       this.logger.warn(`Desconto não encontrado: ${id}`);
       throw new HttpException('Desconto não encontrado.', HttpStatus.NOT_FOUND);

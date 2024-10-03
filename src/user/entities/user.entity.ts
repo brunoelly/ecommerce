@@ -1,12 +1,13 @@
-import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import {Customer} from "../../customer/entities/customer.entity";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Customer } from "../../customer/entities/customer.entity";
 
 @Entity()
 export class User {
-    @PrimaryGeneratedColumn()
-    id!: number;
 
-    @Column()
+    @PrimaryGeneratedColumn('uuid')
+    id!: string;
+
+    @Column({ unique: true })
     username!: string;
 
     @Column()
@@ -14,4 +15,7 @@ export class User {
 
     @OneToOne(() => Customer, customer => customer.user)
     customer!: Customer;
+
+    @Column({ unique: true })
+    email!: string;
 }

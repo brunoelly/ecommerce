@@ -3,8 +3,9 @@ import {Order} from "../../order/entities/order.entity";
 
 @Entity()
 export class Shipping {
-    @PrimaryGeneratedColumn()
-    id!: number;
+
+    @PrimaryGeneratedColumn('uuid')
+    id!: string;
 
     @Column()
     address!: string;

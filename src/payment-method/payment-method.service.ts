@@ -4,6 +4,7 @@ import { UpdatePaymentMethodDto } from './dto/update-payment-method.dto';
 
 @Injectable()
 export class PaymentMethodService {
+
   create(createPaymentMethodDto: CreatePaymentMethodDto) {
     return 'This action adds a new paymentMethod';
   }
@@ -12,15 +13,15 @@ export class PaymentMethodService {
     return `This action returns all paymentMethod`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} paymentMethod`;
   }
 
-  update(id: number, updatePaymentMethodDto: UpdatePaymentMethodDto) {
+  update(id: string, updatePaymentMethodDto: UpdatePaymentMethodDto) {
     return `This action updates a #${id} paymentMethod`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} paymentMethod`;
   }
 }

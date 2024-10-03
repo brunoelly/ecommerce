@@ -1,16 +1,17 @@
-import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import {Order} from "../../order/entities/order.entity";
-import {Review} from "../../review/entities/review.entity";
-import {Wishlist} from "../../wishlist/entities/wishlist.entity";
-import {Cart} from "../../cart/entities/cart.entity";
-import {Contact} from "../../contact/entities/contact.entity";
-import {Address} from "../../address/entities/address.entity";
-import {User} from "../../user/entities/user.entity";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Order } from "../../order/entities/order.entity";
+import { Review } from "../../review/entities/review.entity";
+import { Wishlist } from "../../wishlist/entities/wishlist.entity";
+import { Cart } from "../../cart/entities/cart.entity";
+import { Contact } from "../../contact/entities/contact.entity";
+import { Address } from "../../address/entities/address.entity";
+import { User } from "../../user/entities/user.entity";
 
 @Entity()
 export class Customer {
-    @PrimaryGeneratedColumn()
-    id?: number;
+
+    @PrimaryGeneratedColumn('uuid')
+    id?: string;
 
     @Column()
     name!: string;
@@ -18,7 +19,7 @@ export class Customer {
     @Column({ unique: true })
     cpf!: string;
 
-    @Column()
+    @Column({ unique: true })
     email!: string;
 
     @Column()

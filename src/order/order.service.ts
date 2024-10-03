@@ -39,7 +39,7 @@ export class OrderService {
         return orders;
     }
 
-    async findOne(id: number): Promise<Order> {
+    async findOne(id: string): Promise<Order> {
         this.logger.log(`Buscando pedido com ID: ${id}`);
         const order = await this.orderRepository.findOne({ where: { id }, relations: ['orderItems'] });
         if (!order) {
@@ -49,7 +49,7 @@ export class OrderService {
         return order;
     }
 
-    async update(id: number, createOrderDto: CreateOrderDto): Promise<Order> {
+    async update(id: string, createOrderDto: CreateOrderDto): Promise<Order> {
         this.logger.log(`Iniciando a atualização do pedido com ID: ${id}`);
 
         const existingOrder = await this.orderRepository.findOne({
@@ -89,7 +89,7 @@ export class OrderService {
         return updatedOrder;
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: string): Promise<void> {
         this.logger.log(`Iniciando a exclusão do pedido com ID: ${id}`);
 
         const existingOrder = await this.orderRepository.findOne({ where: { id } });
@@ -102,7 +102,7 @@ export class OrderService {
         this.logger.log(`Pedido com ID ${id} excluído com sucesso`);
     }
 
-    async cancelOrder(id: number): Promise<void> {
+    async cancelOrder(id: string): Promise<void> {
         this.logger.log(`Cancelando pedido com ID: ${id}`);
 
         const order = await this.orderRepository.findOne({ where: { id } });

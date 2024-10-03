@@ -8,8 +8,9 @@ import {CartItem} from "../../cart-item/entities/cart-item.entity";
 
 @Entity()
 export class Product {
-    @PrimaryGeneratedColumn()
-    id!: number;
+
+    @PrimaryGeneratedColumn('uuid')
+    id!: string;
 
     @Column()
     name!: string;

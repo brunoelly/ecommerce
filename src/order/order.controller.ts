@@ -12,22 +12,26 @@ export class OrderController {
     @Post()
     @HttpCode(HttpStatus.CREATED)
     async create(@Body() createOrderDto: CreateOrderDto): Promise<Order> {
+
         this.logger.log('Iniciando a criação de um novo pedido');
         const order = await this.orderService.create(createOrderDto);
         this.logger.log(`Pedido criado com sucesso: ${order.id}`);
+
         return order;
     }
 
     @Get()
     async findAll(): Promise<Order[]> {
+
         this.logger.log('Buscando todos os pedidos');
         const orders = await this.orderService.findAll();
         this.logger.log(`Total de pedidos encontrados: ${orders.length}`);
+
         return orders;
     }
 
     @Get(':id')
-    async findOne(@Param('id') id: number): Promise<Order> {
+    async findOne(@Param('id') id: string): Promise<Order> {
         this.logger.log(`Buscando pedido com ID: ${id}`);
         try {
             const order = await this.orderService.findOne(id);
@@ -44,7 +48,7 @@ export class OrderController {
     }
 
     @Put(':id')
-    async update(@Param('id') id: number, @Body() createOrderDto: CreateOrderDto): Promise<Order> {
+    async update(@Param('id') id: string, @Body() createOrderDto: CreateOrderDto): Promise<Order> {
         this.logger.log(`Iniciando a atualização do pedido com ID: ${id}`);
         try {
             const order = await this.orderService.update(id, createOrderDto);
@@ -62,7 +66,7 @@ export class OrderController {
 
     @Delete(':id')
     @HttpCode(HttpStatus.NO_CONTENT)
-    async remove(@Param('id') id: number): Promise<void> {
+    async remove(@Param('id') id: string): Promise<void> {
         this.logger.log(`Iniciando a exclusão do pedido com ID: ${id}`);
         try {
             await this.orderService.delete(id);

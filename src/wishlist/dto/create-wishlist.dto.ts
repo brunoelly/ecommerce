@@ -1,1 +1,7 @@
-export class CreateWishlistDto {}
+import {IsNotEmpty} from "class-validator";
+
+export class CreateWishlistDto {
+
+    @IsNotEmpty()
+    customerId!: string;
+}

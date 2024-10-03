@@ -11,7 +11,7 @@ async function bootstrap() {
     }));
 
     const options = new DocumentBuilder()
-        .setTitle('Customer API')
+        .setTitle('Ecommerce API')
         .setDescription('API for managing customers')
         .setVersion('1.0')
         .build();

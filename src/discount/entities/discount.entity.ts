@@ -3,8 +3,9 @@ import {Product} from "../../product/entities/product.entity";
 
 @Entity()
 export class Discount {
-    @PrimaryGeneratedColumn()
-    id!: number;
+
+    @PrimaryGeneratedColumn('uuid')
+    id!: string;
 
     @Column()
     code!: string;

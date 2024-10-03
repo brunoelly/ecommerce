@@ -4,8 +4,9 @@ import {Product} from "../../product/entities/product.entity";
 
 @Entity()
 export class OrderItem {
-    @PrimaryGeneratedColumn()
-    id!: number;
+
+    @PrimaryGeneratedColumn('uuid')
+    id!: string;
 
     @Column()
     quantity!: number;

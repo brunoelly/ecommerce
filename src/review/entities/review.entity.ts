@@ -4,8 +4,9 @@ import {Customer} from "../../customer/entities/customer.entity";
 
 @Entity()
 export class Review {
-    @PrimaryGeneratedColumn()
-    id!: number;
+
+    @PrimaryGeneratedColumn('uuid')
+    id!: string;
 
     @Column()
     rating!: number;

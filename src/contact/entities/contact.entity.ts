@@ -3,8 +3,9 @@ import {Customer} from "../../customer/entities/customer.entity";
 
 @Entity()
 export class Contact {
-    @PrimaryGeneratedColumn()
-    id!: number;
+
+    @PrimaryGeneratedColumn('uuid')
+    id!: string;
 
     @Column()
     phoneNumber!: string;

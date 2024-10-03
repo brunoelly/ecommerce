@@ -1,15 +1,27 @@
-import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString } from 'class-validator';
+import {IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString} from 'class-validator';
+import {PrimaryGeneratedColumn} from "typeorm";
 
 export class CreateCustomerDto {
+
+    @PrimaryGeneratedColumn('uuid')
+    id?: string;
+
     @IsNotEmpty()
     @IsString()
     name!: string;
+
+    @IsNotEmpty()
+    @IsString()
+    cpf!: string;
 
     @IsNotEmpty()
     @IsEmail()
     email!: string;
 
     @IsNotEmpty()
-    @IsPhoneNumber('BR')
+    @IsPhoneNumber("BR")
     phone!: string;
+
+    @IsOptional()
+    userId!: string;
 }

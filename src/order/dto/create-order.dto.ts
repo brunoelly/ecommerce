@@ -18,14 +18,14 @@ export class CreateOrderDto {
     totalAmount!: number;
 
     @IsArray()
-    customersIds!: number[];
+    customersIds!: string[];
 
     @IsArray()
-    ordersIds!: number[];
+    ordersIds!: string[];
 
     @IsArray()
-    paymentsIds!: number[];
+    paymentsIds!: string[];
 
     @IsArray()
-    shippingsIds!: number[];
+    shippingsIds!: string[];
 }

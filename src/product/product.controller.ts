@@ -26,7 +26,7 @@ export class ProductController {
     }
 
     @Get(':id')
-    async findOne(@Param('id') id: number): Promise<Product> {
+    async findOne(@Param('id') id: string): Promise<Product> {
         this.logger.log(`Buscando produto com ID: ${id}`);
         try {
             const product = await this.productService.findOne(id);
@@ -39,7 +39,7 @@ export class ProductController {
     }
 
     @Put(':id')
-    async update(@Param('id') id: number, @Body() product: Product): Promise<Product> {
+    async update(@Param('id') id: string, @Body() product: Product): Promise<Product> {
         this.logger.log(`Iniciando a atualização do produto com ID: ${id}`);
         try {
             const updatedProduct = await this.productService.update(id, product);
@@ -53,7 +53,7 @@ export class ProductController {
 
     @Delete(':id')
     @HttpCode(HttpStatus.NO_CONTENT)
-    async remove(@Param('id') id: number): Promise<void> {
+    async remove(@Param('id') id: string): Promise<void> {
         this.logger.log(`Iniciando a exclusão do produto com ID: ${id}`);
         try {
             await this.productService.remove(id);

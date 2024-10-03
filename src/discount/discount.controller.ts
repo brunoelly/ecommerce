@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { DiscountService } from './discount.service';
-import { CreateDiscountDto } from './dto/create-discount.dto';
-import { UpdateDiscountDto } from './dto/update-discount.dto';
+import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
+import {DiscountService} from './discount.service';
+import {CreateDiscountDto} from './dto/create-discount.dto';
+import {UpdateDiscountDto} from './dto/update-discount.dto';
 
 @Controller('discount')
 export class DiscountController {
@@ -12,6 +12,11 @@ export class DiscountController {
     return this.discountService.create(createDiscountDto);
   }
 
+  @Post('apply') // Aplica um desconto usando o código
+  apply(@Body() { code, orderTotal }: { code: string; orderTotal: number }) {
+    return this.discountService.apply(code, orderTotal);
+  }
+
   @Get()
   findAll() {
     return this.discountService.findAll();
@@ -19,16 +24,16 @@ export class DiscountController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.discountService.findOne(+id);
+    return this.discountService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDiscountDto: UpdateDiscountDto) {
-    return this.discountService.update(+id, updateDiscountDto);
+    return this.discountService.update(id, updateDiscountDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.discountService.remove(+id);
+    return this.discountService.remove(id);
   }
 }
