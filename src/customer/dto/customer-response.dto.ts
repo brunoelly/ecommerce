@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString } from 'class-validator';
+import {AddressResponseDto} from "../../address/dto/address-response.dto";
 
 export class CustomerResponseDto {
     @IsNotEmpty()
@@ -15,4 +16,7 @@ export class CustomerResponseDto {
 
     @IsOptional()
     userId?: string;
+
+    @IsOptional()
+    addresses!: AddressResponseDto[];
 }

@@ -1,5 +1,6 @@
 import {IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString} from 'class-validator';
 import {PrimaryGeneratedColumn} from "typeorm";
+import {Address} from "../../address/entities/address.entity";
 
 export class CreateCustomerDto {
 
@@ -24,4 +25,7 @@ export class CreateCustomerDto {
 
     @IsOptional()
     userId!: string;
+
+    @IsNotEmpty()
+    addresses!: Address[];
 }

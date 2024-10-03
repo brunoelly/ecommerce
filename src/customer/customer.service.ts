@@ -50,7 +50,7 @@ export class CustomerService {
         this.logger.log(`Buscando cliente com ID: ${id}`);
         const customer = await this.customerRepository.findOne({
             where: { id },
-            relations: ['user'],
+            relations: ['user', 'addresses'],
         });
 
         if (!customer) {
@@ -103,6 +103,15 @@ export class CustomerService {
             email: customer.email,
             phone: customer.phone,
             userId: customer.user?.id,
+            addresses: customer.addresses.map(address => ({
+                street: address.street,
+                number: address.number,
+                complement: address.complement,
+                zipCode: address.zipCode,
+                city: address.city,
+                state: address.state,
+                country: address.country,
+            })),
         };
     }
 }
