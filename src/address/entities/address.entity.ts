@@ -14,7 +14,7 @@ export class Address {
     number!: string;
 
     @Column({ nullable: true })
-    complement?: string;
+    complement!: string;
 
     @Column()
     zipCode!: string;

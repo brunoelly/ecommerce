@@ -26,6 +26,6 @@ export class CreateCustomerDto {
     @IsOptional()
     userId!: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     addresses!: Address[];
 }

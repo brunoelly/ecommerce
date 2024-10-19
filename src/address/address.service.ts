@@ -7,6 +7,7 @@ import {Repository} from "typeorm";
 import {Customer} from "../customer/entities/customer.entity";
 import {CustomerNotFoundException} from "../exceptions/CustomerNotFoundException";
 import {AddressNotFoundException} from "../exceptions/AddressNotFoundException";
+import {AddressResponseDto} from "./dto/address-response.dto";
 
 @Injectable()
 export class AddressService {
@@ -19,7 +20,7 @@ export class AddressService {
       private customerRepository: Repository<Customer>,
   ) {}
 
-  async create(createAddressDto: CreateAddressDto): Promise<Address> {
+  async create(createAddressDto: CreateAddressDto): Promise<AddressResponseDto> {
     this.logger.log('Iniciando a criação de um novo endereço');
 
     const customer = await this.customerRepository.findOne({ where: { id: createAddressDto.customerId } });
@@ -29,16 +30,23 @@ export class AddressService {
     }
 
     const address = this.addressRepository.create({
-      ...createAddressDto,
+      street: createAddressDto.street,
+      number: createAddressDto.number,
+      complement: createAddressDto.complement,
+      zipCode: createAddressDto.zipCode,
+      city: createAddressDto.city,
+      state: createAddressDto.state,
+      country: createAddressDto.country,
       customer,
     });
 
     const savedAddress = await this.addressRepository.save(address);
     this.logger.log(`Endereço criado com sucesso: ${savedAddress.id}`);
-    return savedAddress;
+
+    return this.mapAddressToResponseDto(savedAddress);
   }
 
-  async findAll(): Promise<Address[]> {
+  async findAll(): Promise<AddressResponseDto[]> {
     this.logger.log('Buscando todos os endereços');
     const addresses = await this.addressRepository.find({ relations: ['customer'] });
     this.logger.log(`Total de endereços encontrados: ${addresses.length}`);
@@ -64,7 +72,7 @@ export class AddressService {
     const existingAddress = await this.addressRepository.findOne({ where: { id }, relations: ['customer'] });
     if (!existingAddress) {
       this.logger.warn(`Endereço com ID ${id} não encontrado para atualização`);
-      throw new AddressNotFoundException(id); // Certifique-se de criar essa exceção
+      throw new AddressNotFoundException(id);
     }
 
     Object.assign(existingAddress, updateAddressDto);
@@ -85,5 +93,17 @@ export class AddressService {
 
     await this.addressRepository.delete(id);
     this.logger.log(`Endereço com ID ${id} excluído com sucesso`);
+  }
+
+  private mapAddressToResponseDto(address: Address): AddressResponseDto {
+    return {
+      street: address.street,
+      number: address.number,
+      complement: address.complement,
+      zipCode: address.zipCode,
+      city: address.city,
+      state: address.state,
+      country: address.country,
+    };
   }
 }

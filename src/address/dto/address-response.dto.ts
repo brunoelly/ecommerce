@@ -1,7 +1,6 @@
-import {IsNotEmpty, IsString} from "class-validator";
+import { IsString, IsOptional, IsNotEmpty } from 'class-validator';
 
 export class AddressResponseDto {
-
     @IsNotEmpty()
     @IsString()
     street!: string;
@@ -10,7 +9,7 @@ export class AddressResponseDto {
     @IsString()
     number!: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     complement?: string;
 
