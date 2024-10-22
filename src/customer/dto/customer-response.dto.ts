@@ -2,9 +2,13 @@ import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString } from 'class-
 import {AddressResponseDto} from "../../address/dto/address-response.dto";
 
 export class CustomerResponseDto {
+    
     @IsNotEmpty()
     @IsString()
     name!: string;
+
+    @IsString()
+    cpf!: string;
 
     @IsNotEmpty()
     @IsEmail()

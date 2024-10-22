@@ -22,25 +22,26 @@ export class CustomerService {
 
     async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
         this.logger.log('Iniciando a criação de um novo cliente');
-
-        const user = await this.userService.findOneByEmail(createCustomerDto.email);
-        if (!user) {
-            this.logger.warn(`Usuário com ID ${createCustomerDto.userId} não encontrado`);
-            throw new UserNotFoundException(createCustomerDto.userId);
+        try {
+            const user = await this.userService.findOneByEmail(createCustomerDto.email);
+            if (!user) {
+                this.logger.warn(`Usuário com ID ${createCustomerDto.userId} não encontrado`);
+                throw new UserNotFoundException(createCustomerDto.userId);
+            }
+    
+            const customer = this.customerRepository.create({
+                ...createCustomerDto,
+                user,
+            });
+    
+            const savedCustomer = await this.customerRepository.save(customer);
+            this.logger.log(`Cliente criado com sucesso: ${savedCustomer.id}`);
+            return savedCustomer;
+    
+        } catch (error: any) {
+            this.logger.error('Erro ao criar cliente', error.stack);
+            throw error;
         }
-
-        const customer = this.customerRepository.create({
-            name: createCustomerDto.name,
-            email: createCustomerDto.email,
-            phone: createCustomerDto.phone,
-            user: user,
-            addresses: createCustomerDto.addresses || [],
-        });
-
-        const savedCustomer = await this.customerRepository.save(customer);
-
-        this.logger.log(`Cliente criado com sucesso: ${savedCustomer.id}`);
-        return savedCustomer;
     }
 
     async findAll(): Promise<CustomerResponseDto[]> {
@@ -102,10 +103,11 @@ export class CustomerService {
         this.logger.log(`Cliente com ID ${id} excluído com sucesso`);
     }
 
-    private mapCustomerToResponseDto(customer: Customer): CustomerResponseDto {
+    public mapCustomerToResponseDto(customer: Customer): CustomerResponseDto {
         return {
             name: customer.name,
             email: customer.email,
+            cpf: customer.cpf,
             phone: customer.phone,
             userId: customer.user ? customer.user.id : undefined,
             addresses: customer.addresses ?

@@ -6,7 +6,13 @@ services:
     build: .
     ports:
       - "3000:3000"
+    env_file:
+      - .env
     volumes:
-      - .:/home/node/app
-    environment:
-      NODE_ENV: development
+      - .:/home/node/customer-crud
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

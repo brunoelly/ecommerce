@@ -9,6 +9,7 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.14.1",
+    "dotenv": "^16.4.5",
     "sqlite3": "^5.0.2",
     "swagger-ui-express": "^5.0.1",
     "typeorm": "^0.3.17",
