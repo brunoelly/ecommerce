@@ -7,7 +7,7 @@ export class CreateUserDto {
 
     @IsNotEmpty()
     @IsString()
-    @Length(6, 20)  // Exemplo de validação para a senha
+    @Length(6, 20)
     password!: string;
 
     @IsNotEmpty()

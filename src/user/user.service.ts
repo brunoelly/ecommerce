@@ -6,6 +6,7 @@ import {CreateUserDto} from './dto/create-user.dto';
 import {UpdateUserDto} from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import {UserNotFoundException} from "../exceptions/UserNotFoundException";
+import { UserResponseDto } from './dto/user-response.dto';
 
 @Injectable()
 export class UserService {
@@ -84,4 +85,12 @@ export class UserService {
     const user = await this.findOneById(id);
     await this.userRepository.remove(user);
   }
+
+  mapUserToResponseDto(user: User): UserResponseDto {
+    return {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+    };
+}
 }
