@@ -13,6 +13,31 @@ services:
     networks:
       - app-network
 
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins 
+    ports:
+      - "8080:8080"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    networks:
+      - app-network
+
+  socat:
+    image: alpine/socat
+    container_name: socat
+    ports:
+      - "127.0.0.1:2376:2375"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  jenkins_home:

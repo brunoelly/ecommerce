@@ -120,6 +120,7 @@ export class CustomerService {
                     state: address.state,
                     country: address.country,
                 })) : [],
+            contacts: customer.contacts || [],
         };
     }
 }
